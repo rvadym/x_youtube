@@ -14,20 +14,10 @@ class AdminYoutube extends \AbstractView {
     }
     function getView() {
         $b = $this->add('Button')->set('Refresh Data From Youtube');
-        $m = $this->add('x_youtube/Model_XYoutube');
-        $cr = $this->add('CRUD');
-        $cr->setModel($m,
-            array('title','keywords','content_description','description','link_to_video',),
-            array('thumbnail_small','title','keywords','description')
-        );
-        if ($cr->grid) {
-            $cr->grid->addFormatter('thumbnail_small','image');
-            $cr->grid->addFormatter('keywords','wrap');
-            $cr->grid->addFormatter('description','wrap');
-        }
+        $cr = $this->add('x_youtube/CRUD_List');
         if ($b->isClicked()) {
             $this->populateDB();
-            $this->js(null,$cr->grid->js()->reload())->univ()->alert('Done')->execute();
+            $this->js(null,$cr->js()->reload())->univ()->alert('Done')->execute();
         }
     }
     function setUser($name){
